@@ -24,8 +24,7 @@ FROM base AS sas_builder
 WORKDIR /opt/sas
 
 # Temporarly rename environment variables from bojobo/heasoft to match the naming scheme needed by SAS
-ENV SAS_PERL=${PERL}
-ENV SAS_PYTHON=/opt/conda/bin
+ENV SAS_PERL=/usr/bin/perl
 ADD --chown=heasoft:heasoft https://sasdev-xmm.esac.esa.int/pub/sas/${version}.0/Linux/Ubuntu22.04/sas_${version}.0-Ubuntu22.04.tgz sas.tgz
 RUN tar xfz sas.tgz \
     && /bin/bash -c ./install.sh \
