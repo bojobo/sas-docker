@@ -5,7 +5,7 @@ ARG version=21.0
 USER 0
 
 RUN apt-get update && apt-get upgrade -y && apt-get dist-upgrade -y \
-    && apt-get install -y rsync \
+    && apt-get install -y --no-install-recommends rsync \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -16,8 +16,8 @@ RUN mkdir -p /opt/sas \
 
 # Install needed Python packages
 # Already installed packages in bojobo/heasoft: astropy numpy scipy matplotlib setuptools
-RUN pip install --upgrade pip && \
-    pip install requests astroquery
+RUN uv pip install requests astroquery \
+    && uv cache clean
 
 FROM base AS sas_builder
 
