@@ -40,8 +40,8 @@ COPY --from=sas_builder --chown=heasoft:heasoft /opt/sas /opt/sas
 
 # Set environment variables needed by SAS
 ENV PYTHONPATH=/opt/sas/xmmsas_20230412_1735/lib/python:${PYTHONPATH} \
-    LIBRARY_PATH=/opt/conda/lib:/opt/sas/xmmsas_20230412_1735/libextra:/opt/sas/xmmsas_20230412_1735/lib \
-    LD_LIBRARY_PATH=/opt/conda/lib:/opt/sas/xmmsas_20230412_1735/libextra:/opt/sas/xmmsas_20230412_1735/lib:${LD_LIBRARY_PATH} \
+    LIBRARY_PATH=/opt/sas/xmmsas_20230412_1735/libextra:/opt/sas/xmmsas_20230412_1735/lib \
+    LD_LIBRARY_PATH=/opt/sas/xmmsas_20230412_1735/libextra:/opt/sas/xmmsas_20230412_1735/lib:${LD_LIBRARY_PATH} \
     SAS_PATH=/opt/sas/xmmsas_20230412_1735 \
     SAS_DIR=/opt/sas/xmmsas_20230412_1735 \
     PATH=/opt/sas/xmmsas_20230412_1735/binextra:/opt/sas/xmmsas_20230412_1735/bin:/opt/sas/xmmsas_20230412_1735/bin/devel:${PATH} \

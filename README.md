@@ -8,7 +8,7 @@ After building the image, you'll have to download the CCF. To do that, do the fo
 docker run -v ccf:/var/lib/ccf --rm -it YOUR-TAG bash
 ```
 
-2. Download the valid CCF and runu `cifbuild`:
+2. Download the valid CCF and run `cifbuild`:
 ```
 rsync -v -a --delete --delete-after --force --include='*.CCF' --exclude='*/' sasdev-xmm.esac.esa.int::XMM_VALID_CCF /var/lib/ccf/ \
 && cd /var/lib/ccf && cifbuild withobservationdate=yes
