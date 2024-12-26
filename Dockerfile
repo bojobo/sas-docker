@@ -1,4 +1,4 @@
-FROM bojobo/heasoft:6.34 AS base
+FROM bojobo/heasoft AS base
 
 ARG version=21.0
 
@@ -47,6 +47,8 @@ ENV PYTHONPATH=/opt/sas/xmmsas_20230412_1735/lib/python:${PYTHONPATH} \
     PATH=/opt/sas/xmmsas_20230412_1735/binextra:/opt/sas/xmmsas_20230412_1735/bin:/opt/sas/xmmsas_20230412_1735/bin/devel:${PATH} \
     SAS_SUPRESS_WARNING=1 \
     SAS_CCFPATH=/var/lib/ccf
+
+VOLUME /var/lib/ccf
 
 USER heasoft
 WORKDIR /home/heasoft
