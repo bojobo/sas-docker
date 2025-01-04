@@ -48,7 +48,6 @@ ENV PYTHONPATH=/opt/sas/xmmsas_20230412_1735/lib/python:${PYTHONPATH} \
     SAS_SUPRESS_WARNING=1 \
     SAS_CCFPATH=/var/lib/ccf
 
-VOLUME /var/lib/ccf
-
 USER heasoft
+VOLUME /var/lib/ccf
 WORKDIR /home/heasoft
