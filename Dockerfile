@@ -1,11 +1,19 @@
-FROM bojobo/heasoft AS base
+ARG SAS_VERSION
+ARG HEASOFT_VERSION=latest
 
-ARG version=21.0
+FROM scratch AS downloader
+
+ARG SAS_VERSION
+
+ADD https://sasdev-xmm.esac.esa.int/pub/sas/${SAS_VERSION}/Linux/Ubuntu22.04/sas_${SAS_VERSION}-Ubuntu22.04.tgz ./sas.tgz
+
+FROM bojobo/heasoft:${HEASOFT_VERSION} AS base
 
 USER 0
 
 RUN apt-get update && apt-get upgrade -y && apt-get dist-upgrade -y \
-    && apt-get install -y --no-install-recommends rsync \
+    && apt-get install -y --no-install-recommends \
+        rsync \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -25,15 +33,17 @@ WORKDIR /opt/sas
 
 # Temporarly rename environment variables from bojobo/heasoft to match the naming scheme needed by SAS
 ENV SAS_PERL=/usr/bin/perl
-ADD --chown=heasoft:heasoft https://sasdev-xmm.esac.esa.int/pub/sas/${version}.0/Linux/Ubuntu22.04/sas_${version}.0-Ubuntu22.04.tgz sas.tgz
+COPY --from=downloader --chown=heasoft:heasoft ./sas.tgz /opt/sas/sas.tgz
 RUN tar xfz sas.tgz \
     && /bin/bash -c ./install.sh \
     && rm sas.tgz
 
 FROM base AS final
 
-LABEL version="${version}" \
-      description="Scientific Analysis System (SAS) ${version} https://www.cosmos.esa.int/web/xmm-newton/sas" \
+ARG SAS_VERSION
+
+LABEL version="${SAS_VERSION}" \
+      description="Scientific Analysis System (SAS) ${SAS_VERSION} https://www.cosmos.esa.int/web/xmm-newton/sas" \
       maintainer="Bojan Todorkov"
 
 COPY --from=sas_builder --chown=heasoft:heasoft /opt/sas /opt/sas
